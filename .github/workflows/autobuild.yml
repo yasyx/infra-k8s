@@ -28,10 +28,12 @@ jobs:
           password: ${{ secrets.REGISTRY_PASSWORD }}
           sealos: 4.0.0-alpha.11
         run: |
-          commentbody="${{github.event.comment.body}}"
-          app=`echo "$commentbody"|cut -d" " -f2`
-          version=`echo "$commentbody"|cut -d" " -f3`
-          branch=`echo "$body"|cut -d" " -f4`
+          app=`echo "$commentbody"| awk '{print $2}'`
+          version=`echo "$commentbody"| awk '{print $3}'`
+          branch=`echo "$commentbody"| awk '{print $4}'`
+          echo "app: $app"
+          echo "version: $version"
+          echo "branch: $branch"
           git checkout $branch
           echo "start to build $app:$version"
           export PATH=${PATH}:$(pwd)
