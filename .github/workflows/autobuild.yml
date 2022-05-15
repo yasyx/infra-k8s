@@ -45,7 +45,7 @@ jobs:
           sudo mv buildah /usr/bin/
           cd $app
           filename=Kubefile
-          if  [ -x Dockerfile ]; then
+          if  [ -f Dockerfile ]; then
             filename=Dockerfile
           fi
           sudo sealos login $domain -u $username -p $password
