@@ -1,0 +1,35 @@
+apiVersion: apps.kubeblocks.io/v1alpha1
+kind: Cluster
+metadata:
+  name: {{.Release.Name}}
+  namespace: {{.Release.Namespace}}
+spec:
+  affinity:
+    {{- if .Values.nodeSelector }}
+    nodeLabels:
+      {{- toYaml .Values.nodeSelector | nindent 6 }}
+    {{- end }}
+    podAntiAffinity: Required
+    tenancy: SharedNode
+    topologyKeys: [ ]
+  clusterDefinitionRef: apecloud-mysql
+  clusterVersionRef: ac-mysql-8.0.30
+  componentSpecs:
+    - componentDefRef: mysql
+      enabledLogs:
+        - slow
+        - error
+      monitor: false
+      name: mysql
+      noCreatePDB: false
+      replicas: {{.Values.cluster.replicas}}
+      resources: {{- toYaml .Values.cluster.resources | nindent 8 }}
+      volumeClaimTemplates:
+        - name: data
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: {{.Values.cluster.storage}}
+  terminationPolicy: Delete

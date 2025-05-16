@@ -1,0 +1,32 @@
+{{- if .Values.monitor }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{.Release.Name}}
+  namespace: {{.Release.Namespace}}
+spec:
+  endpoints:
+    - path: /metrics
+      port: http-metrics
+      relabelings:
+        - action: replace
+          regex: (.*)
+          replacement: $1
+          sourceLabels:
+            - __meta_kubernetes_service_label_app_kubernetes_io_managed_by
+          targetLabel: job
+        - action: replace
+          regex: (.*)
+          replacement: $1
+          sourceLabels:
+            - __meta_kubernetes_service_label_app_kubernetes_io_instance
+          targetLabel: app_kubernetes_io_instance
+  namespaceSelector:
+    matchNames:
+      - {{.Release.Namespace}}
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: {{.Release.Name}}
+      app.kubernetes.io/managed-by: kubeblocks
+      apps.kubeblocks.io/component-name: redis
+{{- end }}

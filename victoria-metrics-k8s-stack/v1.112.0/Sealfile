@@ -1,0 +1,7 @@
+FROM scratch
+COPY charts charts
+COPY values.yaml charts/victoria-metrics-k8s-stack/values.yaml
+COPY registry registry
+COPY entrypoint.sh entrypoint.sh
+COPY stripped-down-crds.yaml stripped-down-crds.yaml
+COPY etcd-cert.yaml etcd-cert.yaml

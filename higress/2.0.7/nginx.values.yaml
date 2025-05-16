@@ -1,0 +1,37 @@
+global:
+  ingressClass: nginx
+
+gateway:
+  name: "higress-gateway"
+  replicas: 2
+  service:
+    ports:
+      - name: http2
+        port: 80
+        protocol: TCP
+        targetPort: 80
+        nodePort: 31381
+      - name: https
+        port: 443
+        protocol: TCP
+        targetPort: 443
+        nodePort: 31382
+  affinity:
+    podAffinityPreset: ""
+    podAntiAffinityPreset: "soft"
+    nodeAffinityPreset: {}
+#  Downstream config settings
+downstream:
+  idleTimeout: 180
+  maxRequestHeadersKb: 8192
+  connectionBufferLimits: 32768 #65536
+  http2:
+    maxConcurrentStreams: 1000 #5000
+    initialStreamWindowSize: 524288 #1048576
+    initialConnectionWindowSize: 4194304 #8388608
+  routeTimeout: 0
+
+# Upstream config settings
+upstream:
+  idleTimeout: 10 #30
+  connectionBufferLimits: 10485760

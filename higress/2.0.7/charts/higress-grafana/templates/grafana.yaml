@@ -1,0 +1,35 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: higress-dashboard
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "gateway.labels" . | nindent 4}}
+  annotations:
+    {{- .Values.gateway.annotations | toYaml | nindent 4 }}
+spec:
+  configMapRef:
+    key: dashboard
+    name: higress-dashboard
+  contentCacheDuration: 0s
+  folder: higress
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  resyncPeriod: 876000h
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: higress-dashboard
+  labels:
+    {{- include "gateway.labels" . | nindent 4}}
+  annotations:
+    {{- .Values.gateway.annotations | toYaml | nindent 4 }}
+data:
+{{- range $path, $bytes := .Files.Glob "dashboards/higress.json" }}
+  dashboard: |
+{{ printf "%s" $bytes | indent 4 }}
+{{- end }}
+---

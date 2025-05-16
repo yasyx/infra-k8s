@@ -1,0 +1,44 @@
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: kb-mysql-grafana
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "mysql-grafana.labels" . | nindent 4}}
+spec:
+  configMapRef:
+    key: dashboard
+    name: kb-mysql-grafana
+  contentCacheDuration: 0s
+  folder: kubebocks
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  resyncPeriod: 876000h
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-grafana
+  labels:
+    {{- include "mysql-grafana.labels" . | nindent 4}}
+data:
+{{- range $path, $bytes := .Files.Glob "dashboards/mysql.json" }}
+  dashboard: |
+{{ printf "%s" $bytes | indent 4 }}
+{{- end }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kb-mysql-grafana
+  labels:
+    {{- include "mysql-grafana.labels" . | nindent 4}}
+data:
+{{- range $path, $bytes := .Files.Glob "dashboards/kb-mysql.json" }}
+  dashboard: |
+{{ printf "%s" $bytes | indent 4 }}
+{{- end }}
+---

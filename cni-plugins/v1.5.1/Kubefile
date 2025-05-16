@@ -1,0 +1,1 @@
+FROM docker.io/labring/cni-plugins:v1.5.1

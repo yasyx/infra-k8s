@@ -1,0 +1,6 @@
+gateway:
+  # -- Labels to apply to all resources
+  labels: { }
+
+  # -- Annotations to apply to all resources
+  annotations: { }

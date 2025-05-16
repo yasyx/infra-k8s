@@ -1,0 +1,30 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "k8tz.fullname" . }}-role
+  labels:
+    {{- include "k8tz.labels" . | nindent 4 }}
+rules:
+  - apiGroups: [""]
+    resources: ["namespaces"]
+    verbs: ["get"]
+  {{- if .Values.webhook.certManager.enabled }}
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "list", "watch"]
+  {{- end }}
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "k8tz.fullname" . }}-role-binding
+  labels:
+    {{- include "k8tz.labels" . | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "k8tz.serviceAccountName" . }}
+    namespace: {{ include "k8tz.namespace" . }}
+roleRef:
+  kind: ClusterRole
+  apiGroup: rbac.authorization.k8s.io
+  name: {{ include "k8tz.fullname" . }}-role

@@ -1,0 +1,8 @@
+vector:
+  customConfig:
+    sinks:
+      console_out:
+        type: console
+        inputs: [ parser ]
+        encoding:
+          codec: json

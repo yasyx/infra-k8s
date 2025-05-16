@@ -1,0 +1,1 @@
+FROM docker.io/labring/keda:v2.12.0

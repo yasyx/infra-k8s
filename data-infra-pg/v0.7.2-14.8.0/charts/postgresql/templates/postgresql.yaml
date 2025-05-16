@@ -1,0 +1,33 @@
+apiVersion: apps.kubeblocks.io/v1alpha1
+kind: Cluster
+metadata:
+  name: {{.Release.Name}}
+  namespace: {{.Release.Namespace}}
+spec:
+  affinity:
+    {{- if .Values.nodeSelector }}
+    nodeLabels:
+      {{- toYaml .Values.nodeSelector | nindent 6 }}
+    {{- end }}
+    podAntiAffinity: Required
+    tenancy: SharedNode
+    topologyKeys: [ ]
+  clusterDefinitionRef: postgresql
+  clusterVersionRef: postgresql-14.8.0
+  componentSpecs:
+    - componentDefRef: postgresql
+      monitor: false
+      name: postgresql
+      switchPolicy:
+        type: Noop
+      replicas: {{.Values.cluster.replicas}}
+      resources: {{- toYaml .Values.cluster.resources | nindent 8 }}
+      volumeClaimTemplates:
+        - name: data
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: {{.Values.cluster.storage}}
+  terminationPolicy: Delete

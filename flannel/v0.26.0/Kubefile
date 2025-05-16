@@ -1,0 +1,1 @@
+FROM docker.io/labring/flannel:v0.26.0

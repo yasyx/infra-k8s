@@ -1,0 +1,68 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: Grafana
+metadata:
+  name: grafana
+  namespace: {{.Release.Namespace}}
+  labels:
+    dashboards: grafana
+spec:
+  config:
+    auth:
+      disable_login_form: "false"
+    log:
+      mode: console
+    security:
+      admin_password: {{.Values.config.password}}
+      admin_user: {{.Values.config.user}}
+  deployment:
+    metadata: {}
+    spec:
+      replicas: {{.Values.replicaCount}}
+      template:
+        metadata: { }
+        spec:
+          containers:
+            - name: grafana
+              resources: { }
+              volumeMounts:
+                - mountPath: /var/lib/grafana
+                  name: grafana-storage
+                - mountPath: /var/lib/grafana/plugins
+                  name: grafana-plugins
+          initContainers:
+            - args:
+                - cp -r plugins/* /tmp/plugins/
+              command:
+                - /bin/sh
+                - -c
+              image: {{.Values.pluginRepo}}/{{.Values.pluginImage}}
+              imagePullPolicy: Always
+              name: init-plugins
+              resources: { }
+              volumeMounts:
+                - mountPath: /tmp/plugins
+                  name: grafana-plugins
+          volumes:
+            - name: grafana-storage
+              persistentVolumeClaim:
+                claimName: grafana-pvc
+            - emptyDir: { }
+              name: grafana-plugins
+  persistentVolumeClaim:
+    metadata: { }
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 500Gi
+  service:
+    metadata: {}
+    spec:
+      ports:
+        - name: web
+          nodePort: {{.Values.service.nodePort}}
+          port: 3000
+          protocol: TCP
+          targetPort: 0
+      type: NodePort

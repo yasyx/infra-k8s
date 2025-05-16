@@ -1,0 +1,52 @@
+apiVersion: apps.kubeblocks.io/v1alpha1
+kind: Cluster
+metadata:
+  name: {{.Release.Name}}
+  namespace: {{.Release.Namespace}}
+spec:
+  affinity:
+    {{- if .Values.nodeSelector }}
+    nodeLabels:
+      {{- toYaml .Values.nodeSelector | nindent 6 }}
+    {{- end }}
+    podAntiAffinity: Required
+    tenancy: SharedNode
+    topologyKeys: [ ]
+  clusterDefinitionRef: redis
+  clusterVersionRef: redis-7.0.6
+  componentSpecs:
+    - componentDefRef: redis
+      monitor: false
+      name: redis
+      replicas: {{.Values.cluster.replicas}}
+      serviceAccountName: kb-{{.Release.Name}}
+      enabledLogs:
+        - running
+      resources: {{- toYaml .Values.cluster.resources | nindent 8 }}
+      switchPolicy:
+        type: Noop
+      volumeClaimTemplates:
+        - name: data
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: {{.Values.cluster.storage}}
+    {{- if .Values.sentinel.enable }}
+    - componentDefRef: redis-sentinel
+      monitor: false
+      name: redis-sentinel
+      replicas: {{.Values.sentinel.replicas}}
+      resources: {{- toYaml .Values.sentinel.resources | nindent 8 }}
+      volumeClaimTemplates:
+        - name: data
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: {{.Values.sentinel.storage}}
+    {{- end }}
+  terminationPolicy: Delete
+  tolerations: []

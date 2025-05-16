@@ -1,0 +1,29 @@
+# Default values for redis.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nodeSelector: {}
+
+monitor: true
+
+cluster:
+  replicas: 2
+  storage: 20Gi
+  resources:
+    limits:
+      cpu: 4
+      memory: 8Gi
+    requests:
+      cpu: 200m
+      memory: 200Mi
+sentinel:
+  enable: true
+  replicas: 3
+  storage: 2Gi
+  resources:
+    limits:
+      cpu: 200m
+      memory: 200Mi
+    requests:
+      cpu: 200m
+      memory: 200Mi

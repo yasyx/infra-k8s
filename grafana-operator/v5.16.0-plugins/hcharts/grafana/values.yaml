@@ -1,0 +1,15 @@
+# Default values for grafana.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+config:
+  user: admin
+  password: admin123
+
+replicaCount: 1
+
+pluginRepo:  ghcr.io
+pluginImage: infra-kubernetes/base:grafana_plugins_v2
+
+service:
+  nodePort: 30091

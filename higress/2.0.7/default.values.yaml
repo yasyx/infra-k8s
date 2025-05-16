@@ -1,0 +1,74 @@
+global:
+  defaultLogger: info
+  ingressClass: nginx
+  enableStatus: true
+  enableGatewayAPI: false
+  disableAlpnH2: false
+  enableIstioAPI: true
+  enableSRDS: true
+  o11y:
+    enabled: false
+    lokiURL: http://loki-gateway.loki-system/loki/api/v1/push
+
+gateway:
+  name: "higress-gateway"
+  httpsPort: 443
+  hostNetwork: false
+  replicas: 2
+  autoscaling:
+    enabled: false
+  service:
+    type: NodePort
+    ports:
+      - name: http2
+        port: 80
+        protocol: TCP
+        targetPort: 80
+        nodePort: 31381
+      - name: https
+        port: 443
+        protocol: TCP
+        targetPort: 443
+        nodePort: 31382
+  kind: Deployment
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+      effect: NoSchedule
+  resources:
+    requests:
+      cpu: 256m
+      memory: 256Mi
+    limits:
+      memory: 4Gi
+  metrics:
+    enabled: true
+controller:
+  replicas: 1
+  autoscaling:
+    enabled: true
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+      effect: NoSchedule
+  nodeSelector:
+    node-role.kubernetes.io/control-plane: ''
+  resources:
+    requests:
+      cpu: 256m
+      memory: 256Mi
+#  Downstream config settings
+downstream:
+  idleTimeout: 180
+  maxRequestHeadersKb: 8192
+  connectionBufferLimits: 32768
+  http2:
+    maxConcurrentStreams: 1000
+    initialStreamWindowSize: 524288
+    initialConnectionWindowSize: 4194304
+  routeTimeout: 0
+
+# Upstream config settings
+upstream:
+  idleTimeout: 10
+  connectionBufferLimits: 10485760

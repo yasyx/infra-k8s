@@ -1,0 +1,6 @@
+FROM scratch
+LABEL sealos.io.type="patch"
+COPY opt opt
+COPY ipvsadm_1_1.28-3ubuntu0.16.04.1_amd64.deb opt/ipvsadm_1_1.28-3ubuntu0.16.04.1_amd64.deb
+COPY install.sh install.sh
+CMD ["bash install.sh"]
