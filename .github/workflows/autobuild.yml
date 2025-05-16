@@ -42,6 +42,9 @@ jobs:
           if  [ -f Dockerfile ]; then
             filename=Dockerfile
           fi
+          if  [ -f init.sh ]; then
+            bash init.sh
+          fi
           sudo sealos build -t $domain/$repo/$app:$version -f $filename .  > output.log
           sudo sealos login $domain -u $username -p $password
           sudo sealos push $domain/$repo/$app:$version >> output.log
