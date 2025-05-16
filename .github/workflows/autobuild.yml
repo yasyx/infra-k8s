@@ -7,7 +7,7 @@ jobs:
   issue_comment:
     name: Auto build apps image
     if: startswith(github.event.comment.body, '/imagebuild_apps')
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     permissions:
       issues: write
     steps:
