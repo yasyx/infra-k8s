@@ -1,0 +1,6 @@
+# Note: This using image shim config
+[Service]
+Environment="KUBELET_EXTRA_ARGS= \
+              {{ if or (not .SEALOS_SYS_KUBE_VERSION) (eq .SEALOS_SYS_KUBE_VERSION "") (not (semverCompare "^1.27.0" .SEALOS_SYS_KUBE_VERSION)) }}--container-runtime=remote{{ end }} \
+              {{ if or (not .SEALOS_SYS_KUBE_VERSION) (eq .SEALOS_SYS_KUBE_VERSION "") (not (semverCompare "^1.27.0" .SEALOS_SYS_KUBE_VERSION)) }}--pod-infra-container-image={{ .registryDomain }}:{{ .registryPort }}/{{ .sandboxImage }}{{ end }} \
+              --runtime-request-timeout=15m --container-runtime-endpoint=unix://{{ .SEALOS_SYS_CRI_ENDPOINT }} --image-service-endpoint=unix:///var/run/image-cri-shim.sock --root-dir={{.kubeletData}}"

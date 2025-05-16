@@ -13,8 +13,7 @@ Usage:
 Available Args:
    appName:  current app dir
    appVersion: current app version
-   baranchName: current git branch
-
+   
 Example:
-   /imagebuild_apps  coredns v1.0.0-rc1 main
+   /imagebuild_apps  coredns v1.0.0-rc1 
 ```

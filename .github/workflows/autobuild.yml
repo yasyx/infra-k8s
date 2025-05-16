@@ -18,23 +18,18 @@ jobs:
       - name: Auto build image
         id: autobuild
         env:
-          domain: default
-          repo: default
-          prefix: default
+          domain: ghcr.io
+          repo: ${{ github.repository_owner }}
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
-          sealos: 4.0.0-alpha.11
         run: |
           app=`echo "$commentbody"| awk '{print $2}'`
           version=`echo "$commentbody"| awk '{print $3}'`
-          branch=`echo "$commentbody"| awk '{print $4}'`
           echo "deb [trusted=yes] https://apt.fury.io/labring/ /" | sudo tee /etc/apt/sources.list.d/labring.list
           sudo apt update
           sudo apt install sealos
           echo "app: $app"
           echo "version: $version"
-          echo "branch: $branch"
-          git checkout $branch
           echo "start to build $app:$version"
           export PATH=${PATH}:$(pwd)
           #wget https://github.com/labring/sealos/releases/download/v$sealos/sealos_${sealos}_linux_amd64.tar.gz
@@ -49,9 +44,9 @@ jobs:
             filename=Dockerfile
           fi
           sudo sealos login $domain -u $username -p $password
-          sudo sealos build -t $domain/$repo/$prefix-$app:$version -f $filename .  > output.log
-          sudo sealos push $domain/$repo/$prefix-$app:$version >> output.log
-          echo "sealos push $domain/$repo/$prefix-$app:$version success"
+          sudo sealos build -t $domain/$repo/$app:$version -f $filename .  > output.log
+          sudo sealos push $domain/$repo/$app:$version >> output.log
+          echo "sealos push $domain/$repo/$app:$version success"
           body="$(cat output.log)"
           body="${body//'%'/'%25'}"
           body="${body//$'\n'/'%0A'}"
@@ -65,4 +60,4 @@ jobs:
             ```
             ${{ steps.autobuild.outputs.body }}
             ```
-            detail log please view [autobuild](https://github.com/${{ github.repository_owner }}/bitring-template-project/actions/workflows/autobuild.yml)
+            detail log please view [autobuild](https://github.com/${{ github.repository_owner }}/infra/actions/workflows/autobuild.yml)
