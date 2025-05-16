@@ -28,7 +28,7 @@ cat manifests/gpu-operator.yaml | grep 'image:'  | awk '{print $2}'| grep  ":" >
 # 获取 Ubuntu 版本号
 ubuntu_version=$(cat images_list.txt | grep -o 'ubuntu[0-9.]*' | head -1)
 sed -i "/nvidia\/driver/ s/$/-${ubuntu_version}/" images_list.txt
-sed -i "/nvidia\/cloud-native/\/gdrdrv s/$/-${ubuntu_version}/" images_list.txt
+sed -i "/nvidia\/cloud-native\/gdrdrv s/$/-${ubuntu_version}/" images_list.txt
 
 rm -rf repositories.txt images.txt versions.txt
 rm -rf manifests
