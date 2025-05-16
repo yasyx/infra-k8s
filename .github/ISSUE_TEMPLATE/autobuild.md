@@ -1,6 +1,6 @@
 ---
-name: 构建应用集群镜像
-about: 根据分支目录构建集群镜像并推送到镜像仓库
+name: 构建应用infra镜像
+about: 根据分支目录构建infra镜像并推送到镜像仓库
 title: '【Auto-build】CoreDNS'
 assignees: ''
 
