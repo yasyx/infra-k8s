@@ -21,6 +21,7 @@ jobs:
           username: cuisongliu
           password: ${{ secrets.REGISTRY_PASSWORD }}
         run: |
+          commentbody="${{github.event.comment.body}}"
           app=`echo "$commentbody"| awk '{print $2}'`
           version=`echo "$commentbody"| awk '{print $3}'`
           echo "deb [trusted=yes] https://apt.fury.io/labring/ /" | sudo tee /etc/apt/sources.list.d/labring.list
