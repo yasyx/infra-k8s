@@ -18,7 +18,7 @@ jobs:
         env:
           domain: ghcr.io
           repo: ${{ github.repository_owner }}
-          username: ${{ secrets.REGISTRY_USERNAME }}
+          username: cuisongliu
           password: ${{ secrets.REGISTRY_PASSWORD }}
         run: |
           app=`echo "$commentbody"| awk '{print $2}'`
@@ -41,8 +41,8 @@ jobs:
           if  [ -f Dockerfile ]; then
             filename=Dockerfile
           fi
-          sudo sealos login $domain -u $username -p $password
           sudo sealos build -t $domain/$repo/$app:$version -f $filename .  > output.log
+          sudo sealos login $domain -u $username -p $password
           sudo sealos push $domain/$repo/$app:$version >> output.log
           echo "sealos push $domain/$repo/$app:$version success"
           body="$(cat output.log)"
