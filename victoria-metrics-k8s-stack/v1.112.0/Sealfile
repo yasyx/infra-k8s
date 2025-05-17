@@ -1,5 +1,5 @@
 FROM scratch
-COPY charts charts
+COPY hcharts charts
 COPY values.yaml charts/victoria-metrics-k8s-stack/values.yaml
 COPY registry registry
 COPY entrypoint.sh entrypoint.sh
