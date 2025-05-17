@@ -1,6 +1,6 @@
 FROM scratch
 COPY entrypoint.sh entrypoint.sh
-COPY charts charts
+COPY hcharts charts
 COPY registry registry
 COPY default.values.yaml default.values.yaml
 COPY console.yaml console.yaml
