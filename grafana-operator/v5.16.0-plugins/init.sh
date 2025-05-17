@@ -9,13 +9,13 @@ export readonly VERSION=v5.16.0
 
 rm -rf charts images/shim && mkdir -p manifests images/shim
 
-wget -qO- https://github.com/grafana-operator/grafana-operator/archive/refs/tags/${VERSION}.tar.gz | tar -xz
-
-GrafanaImage=$(cat grafana-operator-${VERSION#v}/controllers/config/operator_constants.go |grep GrafanaImage | awk -F "[\"\"]" '{print $2}')
-GrafanaVersion=$(cat grafana-operator-${VERSION#v}/controllers/config/operator_constants.go |grep GrafanaVersion | awk -F "[\"\"]" '{print $2}')
-echo $GrafanaImage:$GrafanaVersion > images/shim/grafana-operator-images.txt
-
-rm -rf grafana-operator-${VERSION#v}
+#wget -qO- https://github.com/grafana-operator/grafana-operator/archive/refs/tags/${VERSION}.tar.gz | tar -xz
+#
+#GrafanaImage=$(cat grafana-operator-${VERSION#v}/controllers/config/operator_constants.go |grep GrafanaImage | awk -F "[\"\"]" '{print $2}')
+#GrafanaVersion=$(cat grafana-operator-${VERSION#v}/controllers/config/operator_constants.go |grep GrafanaVersion | awk -F "[\"\"]" '{print $2}')
+#echo $GrafanaImage:$GrafanaVersion > images/shim/grafana-operator-images.txt
+#
+#rm -rf grafana-operator-${VERSION#v}
 
 helm template grafana-operator hcharts/grafana-operator  --values hcharts/grafana-operator/values.yaml   --debug > manifests/grafana-operator.yaml
 

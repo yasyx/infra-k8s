@@ -1,1 +1,1 @@
-docker.io/grafana/grafana:11.3.0
+docker.m.daocloud.io/grafana/grafana:11.3.0
