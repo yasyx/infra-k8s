@@ -16,3 +16,5 @@ helm upgrade -i ${NAME} ${CHARTS} -n ${NAMESPACE} --create-namespace ${HELM_OPTS
 
 helm delete -n grafana-operator containerd || true
 helm upgrade -i containerd ./charts/metrics-grafana -n grafana-operator
+
+kubectl apply -f victoria-containerd.yaml

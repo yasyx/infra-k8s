@@ -1,0 +1,10 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMNodeScrape
+metadata:
+  name: containerd
+  namespace: kube-system
+spec:
+  scheme: http
+  port: "5055"
+  path: /v1/metrics
+  interval: 30s
