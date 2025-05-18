@@ -12,6 +12,7 @@ kbcli addon enable redis
 kbcli addon enable postgresql
 kbcli addon enable mongodb
 
+mc mb --ignore-existing local/backuprepo
 
 kbcli backuprepo create backuprepo-default \
   --provider minio \
