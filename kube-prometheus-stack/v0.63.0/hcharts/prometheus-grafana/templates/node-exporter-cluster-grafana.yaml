@@ -1,0 +1,32 @@
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: node-exporter-cluster-grafana
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "prometheus-grafana.labels" . | nindent 4}}
+spec:
+  configMapRef:
+    key: dashboard
+    name: node-exporter-cluster-grafana
+  contentCacheDuration: 0s
+  folder: kube
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  resyncPeriod: 876000h
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: node-exporter-cluster-grafana
+  labels:
+    {{- include "prometheus-grafana.labels" . | nindent 4}}
+data:
+{{- range $path, $bytes := .Files.Glob "dashboards/node-exporter-cluster.json" }}
+  dashboard: |
+{{ printf "%s" $bytes | indent 4 }}
+{{- end }}
+---

@@ -1,0 +1,32 @@
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: k8s-resource-grafana
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "prometheus-grafana.labels" . | nindent 4}}
+spec:
+  configMapRef:
+    key: dashboard
+    name: k8s-resource-grafana
+  contentCacheDuration: 0s
+  folder: kube
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  resyncPeriod: 876000h
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: k8s-resource-grafana
+  labels:
+    {{- include "prometheus-grafana.labels" . | nindent 4}}
+data:
+{{- range $path, $bytes := .Files.Glob "dashboards/k8s-resource.json" }}
+  dashboard: |
+{{ printf "%s" $bytes | indent 4 }}
+{{- end }}
+---

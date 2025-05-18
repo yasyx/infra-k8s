@@ -1,0 +1,31 @@
+prometheus:
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: "false"
+    podMonitorSelectorNilUsesHelmValues: "false"
+    probeSelectorNilUsesHelmValues: "false"
+    ruleSelectorNilUsesHelmValues: "false"
+    walCompression: "false"
+    enableAdminAPI: true
+    replicas: 2
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes: [ "ReadWriteOnce" ]
+          resources:
+            requests:
+              storage: 500Gi
+#    nodeSelector:
+#      nodetype: cpu
+grafana:
+  enabled: false
+  service:
+    type: "NodePort"
+#alertmanager:
+#  alertmanagerSpec:
+#    nodeSelector:
+#      nodetype: cpu
+#prometheusOperator:
+#  admissionWebhooks:
+#    patch:
+#      nodeSelector:
+#        nodetype: cpu

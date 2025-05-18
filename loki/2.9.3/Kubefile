@@ -1,0 +1,7 @@
+FROM scratch
+COPY entrypoint.sh entrypoint.sh
+COPY charts charts
+COPY registry registry
+COPY default.values.yaml default.values.yaml
+COPY promtail.values.yaml promtail.values.yaml
+CMD ["bash entrypoint.sh"]
