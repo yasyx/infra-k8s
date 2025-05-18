@@ -1,3 +1,0 @@
-Verfiy reids :
-    kbcli cluster connect {{.Release.Name}} -n {{.Release.Namespace}}
-    kubectl get secrets -n {{.Release.Namespace}} {{.Release.Name}}-conn-credential -o jsonpath='{.data.\password}' | base64 -d
