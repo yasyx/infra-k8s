@@ -4,3 +4,4 @@ COPY values.yaml charts/victoria-metrics-k8s-stack/values.yaml
 COPY registry registry
 COPY entrypoint.sh entrypoint.sh
 COPY victoria-containerd.yaml victoria-containerd.yaml
+CMD ["bash entrypoint.sh"]
