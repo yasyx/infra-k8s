@@ -13,3 +13,6 @@ cp /etc/kubernetes/pki/etcd/healthcheck-client.crt charts/victoria-metrics-k8s-s
 cp /etc/kubernetes/pki/etcd/healthcheck-client.key charts/victoria-metrics-k8s-stack/files/certs/etcd/healthcheck-client.key
 cp /etc/kubernetes/pki/etcd/ca.crt charts/victoria-metrics-k8s-stack/files/certs/etcd/ca.crt
 helm upgrade -i ${NAME} ${CHARTS} -n ${NAMESPACE} --create-namespace ${HELM_OPTS}
+
+helm delete -n grafana-operator containerd || true
+helm upgrade -i containerd ./charts/metrics-grafana -n grafana-operator
