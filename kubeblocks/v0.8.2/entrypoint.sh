@@ -12,15 +12,15 @@ kbcli addon enable redis
 kbcli addon enable postgresql
 kbcli addon enable mongodb
 
+KB_BACKUP_OPTS=${KB_BACKUP_OPTS:-"--endpoint minio.minio.svc:9000 --access-key-id admin --secret-access-key admin123"}
+
 mc mb --ignore-existing local/backuprepo
 
 kbcli backuprepo create backuprepo-default \
   --provider minio \
-  --endpoint minio.minio.svc:9000 \
   --bucket backuprepo \
-  --access-key-id admin \
-  --secret-access-key admin123 \
   --access-method Tool \
+  ${KB_BACKUP_OPTS} \
   --default
 
 kbcli backuprepo list
