@@ -17,7 +17,7 @@ cluster:
       cpu: 200m
       memory: 200Mi
 sentinel:
-  enable: true
+  enable: false
   replicas: 3
   storage: 2Gi
   resources:
