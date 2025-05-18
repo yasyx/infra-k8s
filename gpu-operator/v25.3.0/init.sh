@@ -39,10 +39,3 @@ cat images_list.txt
 mkdir -p "images/shim"
 mv images_list.txt images/shim/gpuImageList
 cat images/shim/gpuImageList
-cat <<EOF >"Kubefile"
-FROM scratch
-ENV TOOLKIT_VERSION=false
-COPY registry registry
-COPY gpu-operator charts/gpu-operator
-CMD ["helm install --generate-name -n gpu-operator --create-namespace charts/gpu-operator --set driver.enabled=false --set toolkit.enabled=\$(TOOLKIT_VERSION)"]
-EOF
