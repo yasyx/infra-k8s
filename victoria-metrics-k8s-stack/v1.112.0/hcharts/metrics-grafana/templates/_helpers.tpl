@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "mysql-grafana.name" -}}
+{{- define "metrics-grafana.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "mysql-grafana.fullname" -}}
+{{- define "metrics-grafana.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "mysql-grafana.chart" -}}
+{{- define "metrics-grafana.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "mysql-grafana.labels" -}}
-helm.sh/chart: {{ include "mysql-grafana.chart" . }}
-{{ include "mysql-grafana.selectorLabels" . }}
+{{- define "metrics-grafana.labels" -}}
+helm.sh/chart: {{ include "metrics-grafana.chart" . }}
+{{ include "metrics-grafana.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,14 +45,14 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "mysql-grafana.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "mysql-grafana.name" . }}
+{{- define "metrics-grafana.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "metrics-grafana.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "mysql-grafana.serviceAccountName" -}}
-{{- default (include "mysql-grafana.fullname" .) .Values.serviceAccount.name }}
+{{- define "metrics-grafana.serviceAccountName" -}}
+{{- default (include "metrics-grafana.fullname" .) .Values.serviceAccount.name }}
 {{- end }}

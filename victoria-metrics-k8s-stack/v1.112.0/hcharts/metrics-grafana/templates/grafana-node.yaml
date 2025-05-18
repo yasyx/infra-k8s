@@ -1,0 +1,32 @@
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: node-grafana
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "metrics-grafana.labels" . | nindent 4}}
+spec:
+  configMapRef:
+    key: dashboard
+    name: node-grafana
+  contentCacheDuration: 0s
+  folder: vm
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  resyncPeriod: 876000h
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: node-grafana
+  labels:
+    {{- include "metrics-grafana.labels" . | nindent 4}}
+data:
+{{- range $path, $bytes := .Files.Glob "vm/node.json" }}
+  dashboard: |
+{{ printf "%s" $bytes | indent 4 }}
+{{- end }}
+---

@@ -2,16 +2,16 @@
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
-  name: containerd-grafana
+  name: k8s-resource-grafana
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "mysql-grafana.labels" . | nindent 4}}
+    {{- include "metrics-grafana.labels" . | nindent 4}}
 spec:
   configMapRef:
     key: dashboard
-    name: containerd-grafana
+    name: k8s-resource-grafana
   contentCacheDuration: 0s
-  folder: containerd
+  folder: vm
   allowCrossNamespaceImport: true
   instanceSelector:
     matchLabels:
@@ -21,11 +21,11 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: containerd-grafana
+  name: k8s-resource-grafana
   labels:
-    {{- include "mysql-grafana.labels" . | nindent 4}}
+    {{- include "metrics-grafana.labels" . | nindent 4}}
 data:
-{{- range $path, $bytes := .Files.Glob "dashboards/mysql.json" }}
+{{- range $path, $bytes := .Files.Glob "vm/k8s-resource.json" }}
   dashboard: |
 {{ printf "%s" $bytes | indent 4 }}
 {{- end }}
