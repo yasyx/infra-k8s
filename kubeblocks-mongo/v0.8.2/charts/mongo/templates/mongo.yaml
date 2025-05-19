@@ -17,7 +17,7 @@ spec:
   clusterVersionRef: mongodb-5.0
   topology: replicaset
   componentSpecs:
-    - componentDefRef: mongo
+    - componentDefRef: mongodb
       noCreatePDB: false
       enabledLogs:
         - slow
