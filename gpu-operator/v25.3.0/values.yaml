@@ -131,7 +131,7 @@ mig:
   strategy: single
 
 driver:
-  enabled: false
+  enabled: true
   nvidiaDriverCRD:
     enabled: false
     deployDefaultCR: true
@@ -228,7 +228,7 @@ driver:
     name: ""
 
 toolkit:
-  enabled: false
+  enabled: true
   repository: nvcr.io/nvidia/k8s
   image: container-toolkit
   version: v1.17.4-ubuntu20.04
@@ -506,7 +506,7 @@ vfioManager:
         value: "false"
 
 kataManager:
-  enabled: false
+  enabled: true
   config:
     artifactsDir: "/opt/nvidia-gpu-operator/artifacts/runtimeclasses"
     runtimeClasses:
@@ -530,7 +530,7 @@ kataManager:
   resources: {}
 
 sandboxDevicePlugin:
-  enabled: false
+  enabled: true
   repository: nvcr.io/nvidia
   image: kubevirt-gpu-device-plugin
   version: v1.2.10
