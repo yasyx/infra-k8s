@@ -15,6 +15,7 @@ spec:
       - kubernetes.io/hostname
   clusterDefinitionRef: redis
   clusterVersionRef: redis-7.0.6
+  backup: {{toYaml .Values.backup | nindent 4 }}
   componentSpecs:
     - componentDefRef: redis
       monitor: false

@@ -15,6 +15,7 @@ spec:
       - kubernetes.io/hostname
   clusterDefinitionRef: apecloud-mysql
   clusterVersionRef: ac-mysql-8.0.30
+  backup: {{toYaml .Values.backup | nindent 4 }}
   componentSpecs:
     - componentDefRef: mysql
       enabledLogs:

@@ -27,3 +27,17 @@ sentinel:
     requests:
       cpu: 200m
       memory: 200Mi
+
+backup:
+  # 开启自动备份
+  enabled: true
+  # UTC 时区, 下面示例是每周一凌晨 2 点
+  cronExpression: 10 00 * * *
+  # 使用 xtrabackup 进行备份，如果存储支持快照，可以指定为 volume-snapshot
+  method: xtrabackup
+  # 是否开启 PITR
+  pitrEnabled: false
+  # 备份集保留时长
+  retentionPeriod: 7d
+  # BackupRepo
+  repoName: backuprepo-default
