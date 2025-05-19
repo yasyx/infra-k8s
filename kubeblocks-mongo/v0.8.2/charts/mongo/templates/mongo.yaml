@@ -18,9 +18,6 @@ spec:
   componentSpecs:
     - componentDefRef: mongodb
       noCreatePDB: false
-      enabledLogs:
-        - slow
-        - error
       monitor: false
       name: mongodb
       rsmTransformPolicy: ToSts
