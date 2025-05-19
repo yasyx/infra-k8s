@@ -11,10 +11,10 @@ spec:
     - IPv4
   ipFamilyPolicy: SingleStack
   ports:
-    - name: mysql
-      port: 3306
+    - name: redis
+      port: 6379
       protocol: TCP
-      targetPort: mysql
+      targetPort: redis
   selector:
     app.kubernetes.io/instance: {{.Release.Name}}
     app.kubernetes.io/managed-by: kubeblocks

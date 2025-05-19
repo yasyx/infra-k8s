@@ -11,10 +11,10 @@ spec:
     - IPv4
   ipFamilyPolicy: SingleStack
   ports:
-    - name: mysql
-      port: 3306
+    - name: mongodb
+      port: 27017
       protocol: TCP
-      targetPort: mysql
+      targetPort: 27017
   selector:
     app.kubernetes.io/instance: {{.Release.Name}}
     app.kubernetes.io/managed-by: kubeblocks
