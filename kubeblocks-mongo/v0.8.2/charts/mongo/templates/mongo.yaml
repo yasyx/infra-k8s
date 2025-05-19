@@ -11,18 +11,20 @@ spec:
     {{- end }}
     podAntiAffinity: Required
     tenancy: SharedNode
-    topologyKeys:
-      - kubernetes.io/hostname
-  clusterDefinitionRef: apecloud-mysql
-  clusterVersionRef: ac-mysql-8.0.30
+    topologyKeys: [ ]
+  terminationPolicy: Delete
+  clusterDefinitionRef: mongodb
+  clusterVersionRef: mongodb-5.0
+  topology: replicaset
   componentSpecs:
-    - componentDefRef: mysql
+    - componentDefRef: mongo
+      noCreatePDB: false
       enabledLogs:
         - slow
         - error
       monitor: false
-      name: mysql
-      noCreatePDB: false
+      name: mongo
+      rsmTransformPolicy: ToSts
       replicas: {{.Values.cluster.replicas}}
       resources: {{- toYaml .Values.cluster.resources | nindent 8 }}
       volumeClaimTemplates:
@@ -33,4 +35,3 @@ spec:
             resources:
               requests:
                 storage: {{.Values.cluster.storage}}
-  terminationPolicy: Delete

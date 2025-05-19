@@ -11,7 +11,8 @@ spec:
     {{- end }}
     podAntiAffinity: Required
     tenancy: SharedNode
-    topologyKeys: [ ]
+    topologyKeys:
+      - kubernetes.io/hostname
   clusterDefinitionRef: redis
   clusterVersionRef: redis-7.0.6
   componentSpecs:
