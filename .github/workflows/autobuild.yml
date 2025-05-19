@@ -7,6 +7,8 @@ jobs:
   issue_comment:
     name: Auto build apps image
     if: startswith(github.event.comment.body, '/imagebuild_apps')
+    strategy:
+      fail-fast: false
     runs-on: ubuntu-latest
     permissions:
       issues: write
