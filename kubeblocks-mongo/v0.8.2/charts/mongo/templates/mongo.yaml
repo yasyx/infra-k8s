@@ -23,7 +23,7 @@ spec:
         - slow
         - error
       monitor: false
-      name: mongo
+      name: mongodb
       rsmTransformPolicy: ToSts
       replicas: {{.Values.cluster.replicas}}
       resources: {{- toYaml .Values.cluster.resources | nindent 8 }}
