@@ -21,4 +21,4 @@ helm template grafana-operator hcharts/grafana-operator  --values hcharts/grafan
 
 echo "ghcr.io/infra-kubernetes/base:grafana_plugins_v1" > images/shim/v1.txt
 echo "ghcr.io/infra-kubernetes/base:grafana_plugins_v2" > images/shim/v2.txt
-echo "docker.io/grafana/grafana:11.3.0" > images/shim/grafana.txt
+echo "docker.m.daocloud.io/grafana/grafana:11.3.0" > images/shim/grafana.txt
