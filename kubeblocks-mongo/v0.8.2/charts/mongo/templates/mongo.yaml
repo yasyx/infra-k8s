@@ -15,7 +15,6 @@ spec:
   terminationPolicy: Delete
   clusterDefinitionRef: mongodb
   clusterVersionRef: mongodb-5.0
-  topology: replicaset
   componentSpecs:
     - componentDefRef: mongodb
       noCreatePDB: false
