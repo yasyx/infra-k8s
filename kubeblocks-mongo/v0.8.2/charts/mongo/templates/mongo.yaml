@@ -14,7 +14,7 @@ spec:
     topologyKeys: [ ]
   terminationPolicy: Delete
   clusterDefinitionRef: mongodb
-  clusterVersionRef: mongodb-5.0
+  clusterVersionRef: mongodb-6.0
   backup: {{toYaml .Values.backup | nindent 4 }}
   componentSpecs:
     - componentDefRef: mongodb
