@@ -10,3 +10,6 @@ GF_HELM_OPTS="${GF_HELM_OPTS:-}"
 
 helm upgrade -i ${NAME} ./hcharts/${NAME} -n ${NAMESPACE} --create-namespace ${HELM_OPTS} --wait
 helm upgrade -i grafana ./hcharts/grafana -n ${NAMESPACE} --create-namespace ${GF_HELM_OPTS}
+
+helm delete -n grafana-operator nvidia-grafana || true
+helm upgrade -i nvidia-grafana ./hcharts/nvidia-grafana -n grafana-operator

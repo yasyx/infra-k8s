@@ -228,7 +228,7 @@ driver:
     name: ""
 
 toolkit:
-  enabled: true
+  enabled: false
   repository: nvcr.io/nvidia/k8s
   image: container-toolkit
   version: v1.17.4-ubuntu20.04

@@ -14,7 +14,7 @@ chart_version=`helm search repo --versions --regexp '\vnvidia/gpu-operator\v' |g
 helm pull nvidia/gpu-operator --version=${chart_version} -d charts/ --untar
 mv charts/gpu-operator .
 mkdir -p "manifests"
-helm template gpu-operator gpu-operator  --values gpu-operator/values.yaml  --set driver.enabled=false --set toolkit.enabled=false  --set migManager.enabled=false --set vgpuDeviceManager.enabled=false --set vfioManager.enabled=false  --debug > manifests/gpu-operator.yaml
+helm template gpu-operator gpu-operator  --values gpu-operator/values.yaml  --set driver.enabled=false --set toolkit.enabled=true  --set migManager.enabled=false --set vgpuDeviceManager.enabled=false --set vfioManager.enabled=false  --debug > manifests/gpu-operator.yaml
 
 cat manifests/gpu-operator.yaml | grep 'repository:' | awk '{print $2}' > repositories.txt
 cat manifests/gpu-operator.yaml | grep 'image:'  | awk '{print $2}'| grep -v ":" | grep -v vgpu-manager > images.txt
