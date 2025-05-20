@@ -12,3 +12,4 @@ helm repo add nvidia https://helm.ngc.nvidia.com/nvidia
 # Get the chart version from the app version
 chart_version=`helm search repo --versions --regexp '\vnvidia/gpu-operator\v' |grep ${VERSION#v} | awk '{print $2}' | sort -rn | head -n1`
 helm pull nvidia/gpu-operator --version=${chart_version} -d charts/ --untar
+mv charts/gpu-operator .
