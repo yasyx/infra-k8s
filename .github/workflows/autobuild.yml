@@ -21,7 +21,7 @@ jobs:
           domain: ghcr.io
           repo: ${{ github.repository_owner }}
           username: cuisongliu
-          password: ${{ secrets.REGISTRY_PASSWORD }}
+          password: ${{ secrets.GH_TOKEN }}
         run: |
           commentbody="${{github.event.comment.body}}"
           app=`echo "$commentbody"| awk '{print $2}'`
