@@ -1,0 +1,31 @@
+kind: Job
+apiVersion: batch/v1
+metadata:
+  name: init-database-{{ include "one-api.fullname" . }}
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+  labels:
+    {{- include "one-api.labels" . | nindent 4 }}
+    app: init-database
+spec:
+  ttlSecondsAfterFinished: 10
+  template:
+    spec:
+      containers:
+        - name: create-db
+          image: docker.m.daocloud.io/mysql:8.0.28
+          command:
+            - /bin/bash
+            - -c
+            - |
+              mkdir -p /tmp/data
+              echo "CREATE DATABASE oneapi;" > /tmp/data/init.sql
+              ls /tmp/data/*.sql  || exit 1 ;
+              for sql in $(ls /tmp/data/*.sql) ;
+              do
+                mysql -h {{.Values.config.MYSQL_IP}} -P {{.Values.config.MYSQL_PORT}} -u{{.Values.config.MYSQL_USER}} -p{{.Values.config.MYSQL_PASSWORD}} --execute="SET autocommit=0;SET unique_checks=0; SET foreign_key_checks=0;source $sql; COMMIT;"  || exit 1 ;
+              done
+      restartPolicy: Never
+  backoffLimit: 4
