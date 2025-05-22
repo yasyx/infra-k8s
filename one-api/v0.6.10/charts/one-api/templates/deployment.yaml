@@ -30,6 +30,21 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
+          env:
+            - name: SQL_DSN
+              value: {{.Values.config.MYSQL_USER}}:{{.Values.config.MYSQL_PASSWORD}}@tcp({{.Values.config.MYSQL_IP}}:{{.Values.config.MYSQL_PORT}})/oneapi
+            - name: SQL_MAX_IDLE_CONNS
+              value: '{{.Values.config.SQL_MAX_IDLE_CONNS}}'
+            - name: SQL_MAX_OPEN_CONNS
+              value: '{{.Values.config.SQL_MAX_OPEN_CONNS}}'
+            - name: CHANNEL_TEST_FREQUENCY
+              value: '{{.Values.config.CHANNEL_TEST_FREQUENCY}}'
+            - name: POLLING_INTERVAL
+              value: '{{.Values.config.POLLING_INTERVAL}}'
+            - name: BATCH_UPDATE_ENABLED
+              value: '{{.Values.config.BATCH_UPDATE_ENABLED}}'
+            - name: BATCH_UPDATE_INTERVAL
+              value: '{{.Values.config.BATCH_UPDATE_INTERVAL}}'
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}/{{ .Values.image.image  }}"
@@ -46,15 +61,6 @@ spec:
             {{- toYaml .Values.startupProbe | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          volumeMounts:
-            - name: model-storage
-              mountPath: /home/workspace/one-api/models
-              readOnly: true
-      volumes:
-        - name: model-storage
-          hostPath:
-            path: {{ .Values.modelStoragePath }}
-            type: DirectoryOrCreate
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
