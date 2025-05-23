@@ -20,7 +20,7 @@ jobs:
         env:
           domain: ghcr.io
           repo: ${{ github.repository_owner }}
-          username: cuisongliu
+          username: yasyx
           password: ${{ secrets.GH_TOKEN }}
         run: |
           commentbody="${{github.event.comment.body}}"
