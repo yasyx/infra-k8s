@@ -18,10 +18,10 @@ jobs:
       - name: Auto build image
         id: autobuild
         env:
-          domain: ghcr.io
-          repo: ${{ github.repository_owner }}
-          username: yasyx
-          password: ${{ secrets.GH_TOKEN }}
+          domain: ${{ secrets.REPO_DOMAIN}}
+          repo: ${{ secrets.REPO_REPO}}
+          username: ${{ secrets.REPO_USERNAME}}
+          password: ${{ secrets.REPO_PASSWORD }}
         run: |
           commentbody="${{github.event.comment.body}}"
           app=`echo "$commentbody"| awk '{print $2}'`
